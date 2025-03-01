@@ -4,9 +4,7 @@ $(function () {
     console.log("Starting....");
     const $dropZone = $('#dropZone');
     const $fileInput = $('#fileInput');
-    // const $browseBtn=$('#browseBtn');
     const $previewImage = $('#previewImage');
-    const $editorSection = $('editorSection');
     const $originalDimension = $('#originalDimension');
     const $originalFormat = $('#originalFormat');
     const $originalFileSize = $('#originalFileSize');
@@ -34,9 +32,6 @@ $(function () {
             handleFileSelection(files[0]);
         }
     });
-    // $browseBtn.on('click', ()=>{
-    //     $fileInput.trigger("click");
-    // });
     $fileInput.on('change', function () {
         //cast jquery into htmlinputelemnt, then reference the files of the input
         const files = $fileInput[0].files;
@@ -64,7 +59,7 @@ $(function () {
     });
     $processBtn.on('click', processImage);
     $downloadBtn.on('click', downloadImage);
-    // $resetBtn.on('click', resetApp);
+    $resetBtn.on('click', resetApp);
     function handleFileSelection(file) {
         const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
         if (!validTypes.includes(file.type)) {
@@ -84,9 +79,10 @@ $(function () {
             $previewImage.attr('src', objectUrl);
             $originalDimension.text(`${img.naturalWidth} x ${img.naturalHeight}`);
             $originalFormat.text(file.name.split('.').pop()?.toUpperCase() || '');
-            $originalFileSize.text(`${Math.ceil(file.size / 1024)} Kb`);
+            $originalFileSize.text(`${Math.round(file.size / 1024)} Kb`);
             $widthInput.val(img.naturalWidth);
             $heightInput.val(img.naturalHeight);
+            $convertedFileSize.text('');
             const format = file.type.split('/')[1];
             $formatSelect.val(format === 'jpeg' ? 'jpeg' : format);
             $downloadBtn.prop('disabled', true);
@@ -110,13 +106,13 @@ $(function () {
             img.onload = function () {
                 context.drawImage(img, 0, 0, targetWidth, targetHeight);
                 const mimeType = `image/${targetFormat === 'jpeg' ? 'jpeg' : targetFormat}`;
-                const quality = 1; //targetFormat==='webp' ? 0.9 : 0.95;
+                const quality = targetFormat === 'webp' ? 0.9 : 0.95;
                 canvas.toBlob((blob) => {
                     if (blob != null) {
                         currentImage.processedBlob = blob;
                         const newObjectUrl = URL.createObjectURL(blob);
                         $previewImage.attr('src', newObjectUrl);
-                        $convertedFileSize.text(`${Math.ceil(blob.size / 1024)} Kb`);
+                        $convertedFileSize.text(`${Math.round(blob.size / 1024)} Kb`);
                         $downloadBtn.prop('disabled', false);
                     }
                 }, mimeType, quality);
@@ -139,12 +135,19 @@ $(function () {
             document.body.removeChild(link);
         }
     }
-    // function resetApp(): void{
-    //     currentImage = null;
-    //     // $dropZone.removeClass('hidden');
-    //     // $editorSection.addClass('hidden');
-    //     $fileInput.val('');
-    //     $previewImage.attr('src', '#');
-    //     $downloadBtn.prop('disabled', true);
-    // }
+    function resetApp() {
+        currentImage = null;
+        // $dropZone.removeClass('hidden');
+        // $editorSection.addClass('hidden');
+        $fileInput.val('');
+        $previewImage.attr('src', '#');
+        $originalDimension.text('');
+        $originalFormat.text('');
+        $originalFileSize.text('');
+        $formatSelect.val('jpeg');
+        $widthInput.val('');
+        $heightInput.val('');
+        $convertedFileSize.text('');
+        $downloadBtn.prop('disabled', true);
+    }
 });

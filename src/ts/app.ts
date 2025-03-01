@@ -16,8 +16,9 @@ $(function(){
     const $browseBtn=$('#browseBtn');
     const $previewImage=$('#previewImage');
     const $editorSection=$('editorSection');
-    const $originalSize=$('#originalSize');
-    const $originalFormat=$('#orignalFormat');
+    const $originalDimension=$('#originalDimension');
+    const $originalFormat=$('#originalFormat');
+    const $originalFileSize=$('#originalFileSize');
     const $widthInput=$('#widthInput');
     const $heightInput=$('#heightInput');
     const $dpiInput=$('#dpiInput');
@@ -111,8 +112,9 @@ $(function(){
             };
 
             $previewImage.attr('src', objectUrl);
-            $originalSize.text(`${img.naturalWidth} x ${img.naturalHeight}`);
+            $originalDimension.text(`${img.naturalWidth} x ${img.naturalHeight}`);
             $originalFormat.text(file.name.split('.').pop()?.toUpperCase() || '');
+            $originalFileSize.text(`${Math.ceil(file.size/1000)} Kb`);
 
             $widthInput.val(img.naturalWidth);
             $heightInput.val(img.naturalHeight);

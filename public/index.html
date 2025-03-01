@@ -18,7 +18,7 @@
             <div class="upload-prompt">
                 <p>Drag and drop and image here or</p>
                 <button id="browseBtn">Browse Files</button>
-                <input type="file" id="fileInput" accept=".jpg, .jpeg, .png, .webp" hidden>
+                <input type="file" id="fileInput" accept=".jpg, .jpeg, .png, .webp">
                 <p class="supported-formats">Supported formats: JPG, PNG, WEBP</p>
             </div>
         </div>
@@ -29,8 +29,9 @@
                 <div class="preview-wrapper">
                     <img id="previewImage" src="#" alt="Preview">
                     <div class="image-info">
-                        <p>Original dimension: <span id="originalSize"></span></p>
+                        <p>Original dimension: <span id="originalDimension"></span></p>
                         <p>Original format: <span id="originalFormat"></span></p>
+                        <p>Original file size: <span id="originalFileSize"></span></p>
                     </div>
                 </div>
             </div>
@@ -48,10 +49,12 @@
                     <input type="number" id="heightInput" min="1">
                 </div>
 
-                <div class="control-group">
+                <!-- <p>Image DPIs larger than 72 will be reduced to 72</p> -->
+
+                <!-- <div class="control-group">
                     <label for="dpiInput">DPI: </label>
                     <input type="number" id="dpiInput" min="1" value="72">
-                </div>
+                </div> -->
 
                 <div class="control-group">
                     <label for="formatSelect">Format: </label>

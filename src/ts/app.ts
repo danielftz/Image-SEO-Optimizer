@@ -89,7 +89,7 @@ $(function(){
 
     $processBtn.on('click', processImage);
     $downloadBtn.on('click', downloadImage);
-    $resetBtn.on('click', resetApp);
+    // $resetBtn.on('click', resetApp);
 
     function handleFileSelection(file: File):void{
         const validTypes=['image/jpeg', 'image/png','image/webp'];
@@ -193,13 +193,13 @@ $(function(){
         }
     }
 
-    function resetApp(): void{
-        currentImage = null;
+    // function resetApp(): void{
+    //     currentImage = null;
 
-        // $dropZone.removeClass('hidden');
-        // $editorSection.addClass('hidden');
-        $fileInput.val('');
-        $previewImage.attr('src', '#');
-        $downloadBtn.prop('disabled', true);
-    }
+    //     // $dropZone.removeClass('hidden');
+    //     // $editorSection.addClass('hidden');
+    //     $fileInput.val('');
+    //     $previewImage.attr('src', '#');
+    //     $downloadBtn.prop('disabled', true);
+    // }
 })

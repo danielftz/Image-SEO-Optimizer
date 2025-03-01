@@ -64,7 +64,7 @@ $(function () {
     });
     $processBtn.on('click', processImage);
     $downloadBtn.on('click', downloadImage);
-    $resetBtn.on('click', resetApp);
+    // $resetBtn.on('click', resetApp);
     function handleFileSelection(file) {
         const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
         if (!validTypes.includes(file.type)) {
@@ -139,12 +139,12 @@ $(function () {
             document.body.removeChild(link);
         }
     }
-    function resetApp() {
-        currentImage = null;
-        // $dropZone.removeClass('hidden');
-        // $editorSection.addClass('hidden');
-        $fileInput.val('');
-        $previewImage.attr('src', '#');
-        $downloadBtn.prop('disabled', true);
-    }
+    // function resetApp(): void{
+    //     currentImage = null;
+    //     // $dropZone.removeClass('hidden');
+    //     // $editorSection.addClass('hidden');
+    //     $fileInput.val('');
+    //     $previewImage.attr('src', '#');
+    //     $downloadBtn.prop('disabled', true);
+    // }
 });

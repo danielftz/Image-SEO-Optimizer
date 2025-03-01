@@ -12,11 +12,12 @@ $(function () {
     const $originalFileSize = $('#originalFileSize');
     const $widthInput = $('#widthInput');
     const $heightInput = $('#heightInput');
-    const $dpiInput = $('#dpiInput');
+    const $convertedFileSize = $('#convertedFileSize');
+    // const $dpiInput=$('#dpiInput');
     const $formatSelect = $('#formatSelect');
     const $processBtn = $('#processBtn');
     const $downloadBtn = $('#downloadBtn');
-    const $resetBtn = $('#rsetBtn');
+    const $resetBtn = $('#resetBtn');
     let currentImage = null;
     $dropZone.on('dragover', (e) => {
         e.preventDefault();
@@ -82,6 +83,8 @@ $(function () {
                 aspectRatio: img.naturalWidth / img.naturalHeight
             };
             $previewImage.attr('src', objectUrl);
+            // $previewImage.width(img.naturalWidth);
+            // $previewImage.height(img.naturalHeight);
             $originalDimension.text(`${img.naturalWidth} x ${img.naturalHeight}`);
             $originalFormat.text(file.name.split('.').pop()?.toUpperCase() || '');
             $originalFileSize.text(`${Math.ceil(file.size / 1000)} Kb`);
@@ -99,7 +102,7 @@ $(function () {
         if (currentImage != null) {
             const targetWidth = parseInt($widthInput.val());
             const targetHeight = parseInt($heightInput.val());
-            const targetDpi = parseInt($dpiInput.val());
+            // const targetDpi=parseInt($dpiInput.val() as string);
             const targetFormat = $formatSelect.val();
             const canvas = document.createElement('canvas');
             canvas.width = targetWidth;
@@ -113,12 +116,15 @@ $(function () {
             img.onload = function () {
                 context.drawImage(img, 0, 0, targetWidth, targetHeight);
                 const mimeType = `image/${targetFormat === 'jpeg' ? 'jpeg' : targetFormat}`;
-                const quality = targetFormat === 'webp' ? 0.9 : 0.95;
+                const quality = 1; //targetFormat==='webp' ? 0.9 : 0.95;
                 canvas.toBlob((blob) => {
                     if (blob != null) {
                         currentImage.processedBlob = blob;
                         const newObjectUrl = URL.createObjectURL(blob);
+                        $convertedFileSize.text(blob.length);
                         $previewImage.attr('src', newObjectUrl);
+                        // $previewImage.width(img.width);
+                        // $previewImage.height(img.height);
                         $downloadBtn.prop('disabled', false);
                     }
                 }, mimeType, quality);

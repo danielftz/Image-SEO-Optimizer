@@ -21,11 +21,11 @@ $(function(){
     const $originalFileSize=$('#originalFileSize');
     const $widthInput=$('#widthInput');
     const $heightInput=$('#heightInput');
-    const $dpiInput=$('#dpiInput');
+    const $convertedFileSize=$('#convertedFileSize');
     const $formatSelect=$('#formatSelect');
     const $processBtn=$('#processBtn');
     const $downloadBtn=$('#downloadBtn');
-    const $resetBtn=$('#rsetBtn');
+    const $resetBtn=$('#resetBtn');
 
     let currentImage: UploadedImageData | null = null;
 
@@ -85,6 +85,7 @@ $(function(){
         }
 
     });
+    
 
     $processBtn.on('click', processImage);
     $downloadBtn.on('click', downloadImage);
@@ -112,6 +113,7 @@ $(function(){
             };
 
             $previewImage.attr('src', objectUrl);
+
             $originalDimension.text(`${img.naturalWidth} x ${img.naturalHeight}`);
             $originalFormat.text(file.name.split('.').pop()?.toUpperCase() || '');
             $originalFileSize.text(`${Math.ceil(file.size/1000)} Kb`);
@@ -121,9 +123,6 @@ $(function(){
 
             const format=file.type.split('/')[1];
             $formatSelect.val(format==='jpeg' ? 'jpeg':format);
-
-            // $editorSection.removeClass('hidden');
-            // $dropZone.addClass('hidden');
 
             $downloadBtn.prop('disabled', true);
         };
@@ -135,7 +134,6 @@ $(function(){
         if (currentImage != null){
             const targetWidth=parseInt($widthInput.val() as string);
             const targetHeight=parseInt($heightInput.val() as string);
-            const targetDpi=parseInt($dpiInput.val() as string);
             const targetFormat=$formatSelect.val() as string;
 
             const canvas=document.createElement('canvas');
@@ -153,18 +151,21 @@ $(function(){
                 context.drawImage(img, 0, 0, targetWidth, targetHeight);
 
                 const mimeType=`image/${targetFormat==='jpeg' ? 'jpeg' : targetFormat}`;
-                const quality = targetFormat==='webp' ? 0.9 : 0.95;
+                const quality = 1; //targetFormat==='webp' ? 0.9 : 0.95;
 
                 canvas.toBlob((blob)=>{
                     if (blob != null){
                         (currentImage as UploadedImageData).processedBlob = blob;
                         const newObjectUrl = URL.createObjectURL(blob);
+                        
                         $previewImage.attr('src', newObjectUrl);
 
                         $downloadBtn.prop('disabled', false);
                     }
 
                 }, mimeType, quality);
+
+                
             };
 
             img.src=URL.createObjectURL(currentImage.file);

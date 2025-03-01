@@ -13,7 +13,7 @@ $(function(){
 
     const $dropZone=$('#dropZone');
     const $fileInput=$('#fileInput');
-    const $browseBtn=$('#browseBtn');
+    // const $browseBtn=$('#browseBtn');
     const $previewImage=$('#previewImage');
     const $editorSection=$('editorSection');
     const $originalDimension=$('#originalDimension');
@@ -50,9 +50,9 @@ $(function(){
         }
     });
 
-    $browseBtn.on('click', ()=>{
-        $fileInput.trigger("click");
-    });
+    // $browseBtn.on('click', ()=>{
+    //     $fileInput.trigger("click");
+    // });
 
 
     $fileInput.on('change', function(){
@@ -116,7 +116,7 @@ $(function(){
 
             $originalDimension.text(`${img.naturalWidth} x ${img.naturalHeight}`);
             $originalFormat.text(file.name.split('.').pop()?.toUpperCase() || '');
-            $originalFileSize.text(`${Math.ceil(file.size/1000)} Kb`);
+            $originalFileSize.text(`${Math.ceil(file.size/1024)} Kb`);
 
             $widthInput.val(img.naturalWidth);
             $heightInput.val(img.naturalHeight);
@@ -159,7 +159,7 @@ $(function(){
                         const newObjectUrl = URL.createObjectURL(blob);
                         
                         $previewImage.attr('src', newObjectUrl);
-
+                        $convertedFileSize.text(`${Math.ceil(blob.size/1024)} Kb`);
                         $downloadBtn.prop('disabled', false);
                     }
 
@@ -167,6 +167,8 @@ $(function(){
 
                 
             };
+
+
 
             img.src=URL.createObjectURL(currentImage.file);
         }

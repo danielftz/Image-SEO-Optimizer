@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image SEO Optimizer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>    
+
+<body>
+    <div class="container">
+        <h1>Image SEO Optimizer</h1>
+
+        <div class="upload-container" id="dropZone">
+            <div class="upload-prompt">
+                <p>Drag and drop and image here or</p>
+                <button id="browseBtn">Browse Files</button>
+                <input type="file" id="fileInput" accept=".jpg, .jpeg, .png, .webp" hidden>
+                <p class="supported-formats">Supported formats: JPG, PNG, WEBP</p>
+            </div>
+        </div>
+
+        <div id="editorSection">
+            <div class="preview-container">
+                <h2>Preview</h2>
+                <div class="preview-wrapper">
+                    <img id="previewImage" src="#" alt="Preview">
+                    <div class="image-info">
+                        <p>Original dimension: <span id="originalSize"></span></p>
+                        <p>Original format: <span id="originalFormat"></span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls-container">
+                <h2>Image Settings</h2>
+
+                <div class="control-group">
+                    <label for="widthInput">Width (px): </label>
+                    <input type="number" id="widthInput" min="1">
+                </div>
+
+                <div class="control-group">
+                    <label for="heightInput">Height (px): </label>
+                    <input type="number" id="heightInput" min="1">
+                </div>
+
+                <div class="control-group">
+                    <label for="dpiInput">DPI: </label>
+                    <input type="number" id="dpiInput" min="1" value="72">
+                </div>
+
+                <div class="control-group">
+                    <label for="formatSelect">Format: </label>
+                    <select id="formatSelect">
+                        <option value="jpeg">JPG</option>
+                        <option value="png">PNG</option>
+                        <option value="webp">WEBP</option>
+                    </select>
+                </div>
+
+                <div class action-buttons>
+                    <button id="processBtn">Process Image</button>
+                    <button id="downloadBtn" disabled>Download</button>
+                    <button id="resetBtn">Upload New Image</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+
+</html>

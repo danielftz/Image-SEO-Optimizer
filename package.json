@@ -1,0 +1,23 @@
+{
+  "name": "image-seo-optimizer",
+  "version": "1.0.0",
+  "descripton": "A web app for image seo optimization, which includes size optimization, and text generation",
+  "main": "server.ts",
+  "type": "module",
+  "scripts": {
+    "build:ts": "tsc",
+    "copy:css": "mkdir -p public/css && cp src/css/*.css public/css/",
+    "build": "bun run build:ts && bun run copy:css",
+    "start": "bun server.ts",
+    "dev": "bun run build && bun --watch server.ts"
+  },
+  "dependencies": {
+    "bun": "latest"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/jquery": "^3.5.29",
+    "typescript": "^5.8.2"
+  },
+  "private": true
+}

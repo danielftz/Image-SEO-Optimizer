@@ -62,7 +62,7 @@ h2 {
     margin-top: 10px;
 }
 
-button {
+#resetBtn, button {
     background-color: #253551;
     color: #f2e8d9;
     border: none;
@@ -73,7 +73,11 @@ button {
     transition: background-color 0.3s ease;
 }
 
-button:hover {
+#resetBtn{
+    background-color: #F01D20;
+}
+
+#resetBtn:hover, button:hover {
     background-color: #ffaa33;
     color: #ffffff;
 }
@@ -84,18 +88,23 @@ button:disabled {
     cursor: not-allowed;
 }
 
-#editorSection {
+#editorSection, #textGenerationSection{
     margin-top: 30px;
     display: flex;
     gap: 30px;
     flex-wrap: wrap;
 }
 
-.preview-container, .controls-container {
+
+.preview-container, .controls-container, .text-generation-container {
     background-color: #f2e8d9;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.text-generation-container{
+    flex:1;
 }
 
 .preview-container {
@@ -140,15 +149,15 @@ label {
     font-weight: 500;
 }
 
-input, select {
+input, select, textarea{
     width: 100%;
     padding: 8px 12px;
     border: 1px solid #636464;
     border-radius: 4px;
+    font-family: 'Poppins';
     font-size: 16px;
 }
-
-.action-buttons {
+.action-buttons{
     display: flex;
     gap: 15px;
     margin-top: 25px;
@@ -156,10 +165,14 @@ input, select {
     justify-content: center;
 }
 
-.action-buttons button {
+.action-buttons, button {
     white-space: nowrap;
     min-width: 120px;
     flex-basis: calc(50%-10px);
+}
+
+.seo-text-instruction{
+    width: 100%;
 }
 
 .hidden {

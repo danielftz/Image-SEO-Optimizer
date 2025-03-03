@@ -67,8 +67,7 @@ $(function () {
     $resetImageBtn.on('click', resetApp);
     $resetTextBtn.on('click', resetText);
     $generateBtn.on('click', writeInstruction);
-    textAreaClass
-        .on('input', function () {
+    textAreaClass.on('input', function () {
         this.style.height = 'auto';
         this.style.height = (this.scrollHeight) + 'px';
     }).on('keydown', function (e) {
@@ -168,12 +167,17 @@ $(function () {
     function writeInstruction() {
         //get the input text from $seoInsturcitonInput, add to seoConversation, then clearinput
         const inputText = $seoInstructionInput.val();
-        // $seoConversation.append(`<p>YOU: ${inputText}</p>`);
-        // $seoInstructionInput.val('');
-        console.log(inputText);
         if (inputText != null && inputText.trim() != '') {
-            $seoConversation.append(`<p>YOU: ${inputText}</p>`);
+            $seoConversation.append(`<div class="conversation-line">
+                    <p>YOU: </p>
+                    <pre>${inputText}</pre>
+                </div>`);
+            //make api call, then start generating, loading icon here
             $seoInstructionInput.val('');
+            $seoInstructionInput.css("height", "auto");
+            let $lastLine = $seoConversation.last();
+            let lastLineHeight = $lastLine.outerHeight() ?? 0;
+            $('html, body').scrollTop($lastLine.offset().top + lastLineHeight);
         }
     }
     function resetText() {

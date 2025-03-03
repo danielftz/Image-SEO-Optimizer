@@ -94,15 +94,14 @@ $(function () {
     $generateBtn.on('click', writeInstruction);
 
 
-    textAreaClass
-        .on('input', function () {
-            this.style.height = 'auto';
-            this.style.height = (this.scrollHeight) + 'px';
-        }).on('keydown', function (e) {
-            if (e.ctrlKey && e.which === 13) {
-                writeInstruction();
-            }
-        })
+    textAreaClass.on('input', function () {
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight) + 'px';
+    }).on('keydown', function (e) {
+        if (e.ctrlKey && e.which === 13) {
+            writeInstruction();
+        }
+    })
 
 
     function handleFileSelection(file: File): void {
@@ -225,11 +224,22 @@ $(function () {
         const inputText = $seoInstructionInput.val() as string | null | undefined;
 
         if (inputText != null && inputText.trim() != '') {
-            $seoConversation.append(`<p>YOU: ${inputText}</p>`);
+            $seoConversation.append(
+                `<div class="conversation-line">
+                    <p>YOU: </p>
+                    <pre>${inputText}</pre>
+                </div>`
 
+            );
             //make api call, then start generating, loading icon here
 
             $seoInstructionInput.val('');
+            $seoInstructionInput.css("height", "auto");
+
+            let $lastLine = $seoConversation.last();
+            let lastLineHeight = $lastLine.outerHeight() ?? 0;
+
+            $('html, body').scrollTop($lastLine.offset()!.top + lastLineHeight);
         }
     }
 

@@ -10,7 +10,25 @@ body {
     font-style: normal;
     line-height: 1.6;
     color: #253551;
-    background-color:#253551;
+    background-color: #253551;
+}
+
+pre,
+p {
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 1.6;
+    color: #253551;
+    font-size: 16px;
+}
+
+pre {
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 1.6;
+    color: #253551;
 }
 
 
@@ -62,7 +80,8 @@ h2 {
     margin-top: 10px;
 }
 
-.reset-button, button {
+.reset-button,
+button {
     background-color: #253551;
     color: #f2e8d9;
     border: none;
@@ -73,11 +92,12 @@ h2 {
     transition: background-color 0.3s ease;
 }
 
-.reset-button{
+.reset-button {
     background-color: #F01D20;
 }
 
-.reset-button:hover, button:hover {
+.reset-button:hover,
+button:hover {
     background-color: #ffaa33;
     color: #ffffff;
 }
@@ -88,7 +108,8 @@ button:disabled {
     cursor: not-allowed;
 }
 
-#editorSection, #textGenerationSection{
+#editorSection,
+#textGenerationSection {
     margin-top: 30px;
     display: flex;
     gap: 30px;
@@ -96,15 +117,17 @@ button:disabled {
 }
 
 
-.preview-container, .controls-container, .text-generation-container {
+.preview-container,
+.controls-container,
+.text-generation-container {
     background-color: #f2e8d9;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.text-generation-container{
-    flex:1;
+.text-generation-container {
+    flex: 1;
 }
 
 .preview-container {
@@ -149,7 +172,9 @@ label {
     font-weight: 500;
 }
 
-input, select, textarea{
+input,
+select,
+textarea {
     width: 100%;
     padding: 8px 12px;
     border: 1px solid #636464;
@@ -157,7 +182,8 @@ input, select, textarea{
     font-family: 'Poppins';
     font-size: 16px;
 }
-.action-buttons{
+
+.action-buttons {
     display: flex;
     gap: 15px;
     margin-top: 25px;
@@ -165,14 +191,29 @@ input, select, textarea{
     justify-content: center;
 }
 
-.action-buttons, button {
+.action-buttons,
+button {
     white-space: nowrap;
     min-width: 120px;
     flex-basis: calc(50%-10px);
 }
 
-.seo-text-instruction{
+#seoConversation {
+    padding: 25px 10px;
+}
+
+.conversation-line {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: start;
+    gap: 10px;
+}
+
+.text-area {
     width: 100%;
+    display: block;
+    overflow: hidden;
     resize: none;
 }
 
@@ -184,8 +225,9 @@ input, select, textarea{
     #editorSection {
         flex-direction: column;
     }
-    
-    .preview-container, .controls-container {
+
+    .preview-container,
+    .controls-container {
         width: 100%;
     }
 }

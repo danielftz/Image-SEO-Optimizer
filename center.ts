@@ -1,7 +1,7 @@
 import {serve} from "bun";
 import {join} from "path";
 import {readFile} from "fs/promises";
-import homepage from "./public/index.html";
+import homepage from "./src/client/html/index.html";
 
 const PORT = 6969;
 

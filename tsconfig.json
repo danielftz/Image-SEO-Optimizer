@@ -7,10 +7,9 @@
     "strict": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "outDir": "./public/js",
-    "rootDir": "./src/ts",
+    "rootDir": "./src",
     "lib": ["DOM", "ES2020"]
   },
-  "include": ["src/ts/**/*.ts"],
+  "include": ["src/client/**/*.ts"],
   "exclude": ["node_modules"]
 }

@@ -5,11 +5,8 @@
   "main": "server.ts",
   "type": "module",
   "scripts": {
-    "build:ts": "tsc",
-    "copy:css": "mkdir -p public/css && cp src/css/*.css public/css/",
-    "build": "bun run build:ts && bun run copy:css",
-    "start": "bun server.ts",
-    "dev": "bun run build && bun --watch server.ts"
+    "start": "bun center.ts",
+    "dev": "tsc && bun --watch center.ts"
   },
   "dependencies": {
     "bun": "latest"

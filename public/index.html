@@ -71,7 +71,7 @@
                 <div class="action-buttons">
                     <button id="processBtn">Process Image</button>
                     <button id="downloadBtn" disabled>Download</button>
-                    <button id="resetBtn">Reset All</button>
+                    <button class="reset-button" id="resetImageBtn">Reset All</button>
                 </div>
             </div>
         </div>
@@ -81,6 +81,16 @@
                 <h2>SEO Text Generation</h2>
                 <p>Describe in detial what this photo is about, give information on location, and job details, etc. We will generate an SEO title and SEO description for you. </p>
                 <textarea class="seo-text-instruction"></textarea>
+                <div class="action-buttons">
+                    <button>Generate</button>
+                    <button class="reset-button" id="resetTextBtn">Reset Context</button>
+                </div>
+                <div class="text-generation-result">
+                    <label for="suggestedTitle">Suggested Title:</label>
+                    <p id="suggestedTitle"></p>
+                    <label for="suggestedDescription">Suggested Description</label>
+                    <p id="suggestedDescription"></p>
+                </div>
             </div>
         </div>
     </div>

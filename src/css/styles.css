@@ -62,7 +62,7 @@ h2 {
     margin-top: 10px;
 }
 
-#resetBtn, button {
+.reset-button, button {
     background-color: #253551;
     color: #f2e8d9;
     border: none;
@@ -73,11 +73,11 @@ h2 {
     transition: background-color 0.3s ease;
 }
 
-#resetBtn{
+.reset-button{
     background-color: #F01D20;
 }
 
-#resetBtn:hover, button:hover {
+.reset-button:hover, button:hover {
     background-color: #ffaa33;
     color: #ffffff;
 }
@@ -173,6 +173,7 @@ input, select, textarea{
 
 .seo-text-instruction{
     width: 100%;
+    resize: none;
 }
 
 .hidden {

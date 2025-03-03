@@ -14,7 +14,7 @@ $(function () {
     const $formatSelect = $('#formatSelect');
     const $processBtn = $('#processBtn');
     const $downloadBtn = $('#downloadBtn');
-    const $resetBtn = $('#resetBtn');
+    const $resetImageBtn = $('#resetImageBtn');
     let currentImage = null;
     $dropZone.on('dragover', (e) => {
         e.preventDefault();
@@ -59,7 +59,7 @@ $(function () {
     });
     $processBtn.on('click', processImage);
     $downloadBtn.on('click', downloadImage);
-    $resetBtn.on('click', resetApp);
+    $resetImageBtn.on('click', resetApp);
     function handleFileSelection(file) {
         const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
         if (!validTypes.includes(file.type)) {

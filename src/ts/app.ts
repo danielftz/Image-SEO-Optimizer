@@ -23,7 +23,7 @@ $(function(){
     const $formatSelect=$('#formatSelect');
     const $processBtn=$('#processBtn');
     const $downloadBtn=$('#downloadBtn');
-    const $resetBtn=$('#resetBtn');
+    const $resetImageBtn=$('#resetImageBtn');
 
     let currentImage: UploadedImageData | null = null;
 
@@ -82,7 +82,7 @@ $(function(){
 
     $processBtn.on('click', processImage);
     $downloadBtn.on('click', downloadImage);
-    $resetBtn.on('click', resetApp);
+    $resetImageBtn.on('click', resetApp);
 
     function handleFileSelection(file: File):void{
         const validTypes=['image/jpeg', 'image/png','image/webp'];

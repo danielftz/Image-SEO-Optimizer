@@ -231,6 +231,7 @@ $(function () {
                 </div>`
 
             );
+
             //make api call, then start generating, loading icon here
 
             $seoInstructionInput.val('');
@@ -244,6 +245,8 @@ $(function () {
     }
 
     function resetText(): void {
-
+        $seoConversation.children().remove();
+        $seoInstructionInput.val('');
+        $seoInstructionInput.css("height", "auto");
     }
 })

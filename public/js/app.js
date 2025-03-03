@@ -181,5 +181,8 @@ $(function () {
         }
     }
     function resetText() {
+        $seoConversation.children().remove();
+        $seoInstructionInput.val('');
+        $seoInstructionInput.css("height", "auto");
     }
 });

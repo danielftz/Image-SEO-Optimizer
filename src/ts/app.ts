@@ -232,7 +232,8 @@ $(function () {
 
             );
 
-            //make api call, then start generating, loading icon here
+            //make api call, then start generating, loading icon
+
 
             $seoInstructionInput.val('');
             $seoInstructionInput.css("height", "auto");

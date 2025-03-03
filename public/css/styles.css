@@ -186,7 +186,7 @@ textarea {
 .action-buttons {
     display: flex;
     gap: 15px;
-    margin-top: 25px;
+    margin: 25px 0px;
     flex-wrap: wrap;
     justify-content: center;
 }

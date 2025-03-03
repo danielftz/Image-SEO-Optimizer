@@ -25,6 +25,8 @@ $(function(){
     const $downloadBtn=$('#downloadBtn');
     const $resetImageBtn=$('#resetImageBtn');
 
+    const textAreaClass=$('.text-area');
+
     let currentImage: UploadedImageData | null = null;
 
     $dropZone.on('dragover', (e)=>{
@@ -83,6 +85,13 @@ $(function(){
     $processBtn.on('click', processImage);
     $downloadBtn.on('click', downloadImage);
     $resetImageBtn.on('click', resetApp);
+
+
+    textAreaClass.on('input', function(){
+        this.style.height='auto';
+        this.style.height=(this.scrollHeight)+'px';
+    });
+
 
     function handleFileSelection(file: File):void{
         const validTypes=['image/jpeg', 'image/png','image/webp'];

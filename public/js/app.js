@@ -15,6 +15,10 @@ $(function () {
     const $processBtn = $('#processBtn');
     const $downloadBtn = $('#downloadBtn');
     const $resetImageBtn = $('#resetImageBtn');
+    const $seoConversation = $('#seoConversation');
+    const $seoInstructionInput = $('#seoInstructionInput');
+    const $generateBtn = $('#generateBtn');
+    const $resetTextBtn = $('#resetTextBtn');
     const textAreaClass = $('.text-area');
     let currentImage = null;
     $dropZone.on('dragover', (e) => {
@@ -61,9 +65,16 @@ $(function () {
     $processBtn.on('click', processImage);
     $downloadBtn.on('click', downloadImage);
     $resetImageBtn.on('click', resetApp);
-    textAreaClass.on('input', function () {
+    $resetTextBtn.on('click', resetText);
+    $generateBtn.on('click', writeInstruction);
+    textAreaClass
+        .on('input', function () {
         this.style.height = 'auto';
         this.style.height = (this.scrollHeight) + 'px';
+    }).on('keydown', function (e) {
+        if (e.ctrlKey && e.which === 13) {
+            writeInstruction();
+        }
     });
     function handleFileSelection(file) {
         const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
@@ -142,9 +153,8 @@ $(function () {
     }
     function resetApp() {
         currentImage = null;
-        // $dropZone.removeClass('hidden');
-        // $editorSection.addClass('hidden');
         $fileInput.val('');
+        ``;
         $previewImage.attr('src', '#');
         $originalDimension.text('');
         $originalFormat.text('');
@@ -154,5 +164,18 @@ $(function () {
         $heightInput.val('');
         $convertedFileSize.text('');
         $downloadBtn.prop('disabled', true);
+    }
+    function writeInstruction() {
+        //get the input text from $seoInsturcitonInput, add to seoConversation, then clearinput
+        const inputText = $seoInstructionInput.val();
+        // $seoConversation.append(`<p>YOU: ${inputText}</p>`);
+        // $seoInstructionInput.val('');
+        console.log(inputText);
+        if (inputText != null && inputText.trim() != '') {
+            $seoConversation.append(`<p>YOU: ${inputText}</p>`);
+            $seoInstructionInput.val('');
+        }
+    }
+    function resetText() {
     }
 });

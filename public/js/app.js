@@ -67,6 +67,7 @@ $(function () {
     $resetImageBtn.on('click', resetApp);
     $resetTextBtn.on('click', resetText);
     $generateBtn.on('click', writeInstruction);
+    //text area always size vertically according to text length
     textAreaClass.on('input', function () {
         this.style.height = 'auto';
         this.style.height = (this.scrollHeight) + 'px';
@@ -172,9 +173,10 @@ $(function () {
                     <p>YOU: </p>
                     <pre>${inputText}</pre>
                 </div>`);
-            //make api call, then start generating, loading icon here
+            //make api call, then start generating, loading icon
             $seoInstructionInput.val('');
             $seoInstructionInput.css("height", "auto");
+            //scroll to position
             let $lastLine = $seoConversation.last();
             let lastLineHeight = $lastLine.outerHeight() ?? 0;
             $('html, body').scrollTop($lastLine.offset().top + lastLineHeight);

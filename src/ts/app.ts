@@ -33,6 +33,8 @@ $(function () {
 
     let currentImage: UploadedImageData | null = null;
 
+    $previewImage.hide();
+
     $dropZone.on('dragover', (e) => {
         e.preventDefault();
         $dropZone.addClass('drag-over');
@@ -125,7 +127,7 @@ $(function () {
                 originalHeight: img.naturalHeight,
                 aspectRatio: img.naturalWidth / img.naturalHeight
             };
-
+            $previewImage.show();
             $previewImage.attr('src', objectUrl);
 
             $originalDimension.text(`${img.naturalWidth} x ${img.naturalHeight}`);
@@ -210,6 +212,7 @@ $(function () {
 
         $fileInput.val(''); ``
         $previewImage.attr('src', '#');
+        $previewImage.hide();
         $originalDimension.text('');
         $originalFormat.text('');
         $originalFileSize.text('');

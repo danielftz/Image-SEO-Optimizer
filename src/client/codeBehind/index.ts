@@ -2,7 +2,6 @@ import type UploadedImageData from '../../model/UploadedImageData';
 
 //equipvalent to document ready
 $(function () {
-
     console.log("Starting....");
 
     const $dropZone = $('#dropZone');
@@ -27,79 +26,111 @@ $(function () {
 
     let currentImage: UploadedImageData | null = null;
 
-    $previewImage.hide();
+    let sessionId: string | null = null;
+    const baseUrl: string | undefined = window.location.host;
+    if (baseUrl) {
+        $.ajax({
+            method: 'GET',
+            url: window.location.protocol + "//" + baseUrl + "/api/getNewSession",
+            contentType: "application/JSON",
+            dataType: "json",
+            success: function (response) {
+                try {
+                    const id = response["id"];
+                    
+                    if (id) {
+                        alert(id);
+                        sessionId = id;
+                        startSetup();
 
-    $dropZone.on('dragover', (e) => {
-        e.preventDefault();
-        $dropZone.addClass('drag-over');
-    });
+                    }
 
-    $dropZone.on('dragleave', () => {
-        $dropZone.removeClass('drag-over');
-    });
-
-    $dropZone.on('drop', (e) => {
-        e.preventDefault();
-        console.log("Dropped");
-
-        $dropZone.removeClass('drag-over');
-
-        const files = e.originalEvent?.dataTransfer?.files;
-        if (files && files.length > 0) {
-            handleFileSelection(files[0]);
-        }
-    });
+                } catch (ex) {
+                    alert(`Unable to get the correct sessionid, ${ex}`);
+                }
+            },
+            error: function (xhr, status, error) {
+                alert(`unable to start, something has gone wrong. ${status}, ${error}`);
+            }
+        });
+    }
 
 
-    $fileInput.on('change', function () {
-        //cast jquery into htmlinputelemnt, then reference the files of the input
-        const files = (<HTMLInputElement>$fileInput[0]).files;
-        if (files && files.length > 0) {
-            handleFileSelection(files[0]);
-        }
-    });
+    function startSetup() {
 
-    $widthInput.on('change', function () {
-        if (currentImage != null) {
-            const newWidth = parseInt($(this).val() as string);
-            if (newWidth > 0) {
-                const newHeight = Math.round(newWidth / (currentImage as UploadedImageData).aspectRatio);
-                $heightInput.val(newHeight);
+        $previewImage.hide();
+
+        $dropZone.on('dragover', (e) => {
+            e.preventDefault();
+            $dropZone.addClass('drag-over');
+        });
+
+        $dropZone.on('dragleave', () => {
+            $dropZone.removeClass('drag-over');
+        });
+
+        $dropZone.on('drop', (e) => {
+            e.preventDefault();
+            console.log("Dropped");
+
+            $dropZone.removeClass('drag-over');
+
+            const files = e.originalEvent?.dataTransfer?.files;
+            if (files && files.length > 0) {
+                handleFileSelection(files[0]);
+            }
+        });
+
+
+        $fileInput.on('change', function () {
+            //cast jquery into htmlinputelemnt, then reference the files of the input
+            const files = (<HTMLInputElement>$fileInput[0]).files;
+            if (files && files.length > 0) {
+                handleFileSelection(files[0]);
+            }
+        });
+
+        $widthInput.on('change', function () {
+            if (currentImage != null) {
+                const newWidth = parseInt($(this).val() as string);
+                if (newWidth > 0) {
+                    const newHeight = Math.round(newWidth / (currentImage as UploadedImageData).aspectRatio);
+                    $heightInput.val(newHeight);
+                }
+
+            }
+        })
+
+        $heightInput.on('change', function () {
+            if (currentImage != null) {
+                const newHeight = parseInt($(this).val() as string);
+                if (newHeight > 0) {
+                    const newWidth = Math.round(newHeight * (currentImage as UploadedImageData).aspectRatio);
+                    $widthInput.val(newWidth);
+                }
             }
 
-        }
-    })
+        });
 
-    $heightInput.on('change', function () {
-        if (currentImage != null) {
-            const newHeight = parseInt($(this).val() as string);
-            if (newHeight > 0) {
-                const newWidth = Math.round(newHeight * (currentImage as UploadedImageData).aspectRatio);
-                $widthInput.val(newWidth);
+
+        $processBtn.on('click', processImage);
+        $downloadBtn.on('click', downloadImage);
+        $resetImageBtn.on('click', resetApp);
+        $resetTextBtn.on('click', resetText);
+
+        $generateBtn.on('click', submitInstruction);
+
+
+        //text area always size vertically according to text length
+        textAreaClass.on('input', function () {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        }).on('keydown', function (e) {
+            if (e.ctrlKey && e.which === 13) {
+                submitInstruction();
             }
-        }
-
-    });
-
-
-    $processBtn.on('click', processImage);
-    $downloadBtn.on('click', downloadImage);
-    $resetImageBtn.on('click', resetApp);
-    $resetTextBtn.on('click', resetText);
-
-    $generateBtn.on('click', submitInstruction);
-
-
-    //text area always size vertically according to text length
-    textAreaClass.on('input', function () {
-        this.style.height = 'auto';
-        this.style.height = (this.scrollHeight) + 'px';
-    }).on('keydown', function (e) {
-        if (e.ctrlKey && e.which === 13) {
-            submitInstruction();
-        }
-    })
-
+        })
+    }
 
     function handleFileSelection(file: File): void {
         const validTypes = ['image/jpeg', 'image/png', 'image/webp'];

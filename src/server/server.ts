@@ -1,14 +1,8 @@
-import ConversationData from "../model/ConversationData";
-import Session from "../model/Session";
-import {v4 as uuidv4} from "uuid";
+import ConversationLine from "../model/ConversationLine";
+import SessionData from "../model/SessionData";
+import { v4 as uuidv4 } from "uuid";
 
-const inMemoryData = new Map<Session,ConversationData[]>();
-
-function onPostInstruction(input: any): Response {
-    
-    return new Response();
-}
-
+const inMemoryData = new Map<string, SessionData>();
 
 //Creates a new sessionID (uuid)
 //Add new instance to inMemoryData
@@ -17,18 +11,39 @@ function onGetNewSession(): Response {
 
     const newId = uuidv4();
     // const timeStamp = Date.now;
-    const newSession: Session = {
-        "id": newId, 
-        "lastInteraction": new Date()
+    const newSession: SessionData = {
+        "id": newId,
+        "lastInteraction": new Date(),
+        "conversation": new Array<ConversationLine>(),
     };
 
-    inMemoryData.set(newSession, new Array<ConversationData>());
+    inMemoryData.set(newId, newSession);
 
     return Response.json(
-    {
-        "id": newId,
-    });
+        {
+            "id": newId,
+        });
 }
+
+
+//Called when caller has sent an instruction
+function onPostInstruction(input: any): Response {
+
+    try {
+        const id: string = input["id"];
+        const userPrompt: string = input["userPrompt"];
+        
+        return Response.json({
+            "assistantResponse":"Sounds good",
+            "suggestedTitle": "ayyy",
+            "suggestedDescription": "LMAOOOO"
+        });
+
+    }catch(ex){
+        return new Response("Bad request. ", {status: 400});
+    }
+}
+
 
 
 export { onPostInstruction, onGetNewSession };

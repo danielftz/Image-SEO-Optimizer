@@ -19,6 +19,8 @@ $(function () {
     const $generateBtn = $('#generateBtn');
     const $resetTextBtn = $('#resetTextBtn');
     const textAreaClass = $('.text-area');
+    const $suggestedTitle = $('#suggestedTitle');
+    const $suggestedDescription = $('#suggestedDescription');
     let currentImage = null;
     let sessionId = null;
     const baseUrl = window.location.host;
@@ -196,13 +198,37 @@ $(function () {
     }
     function submitInstruction() {
         //get the input text from $seoInsturcitonInput, add to seoConversation, then clearinput
-        const inputText = $seoInstructionInput.val();
-        if (inputText != null && inputText.trim() != '') {
+        const userPrompt = $seoInstructionInput.val();
+        if (userPrompt != null && userPrompt.trim() != '') {
             $seoConversation.append(`<div class="conversation-line">
-                    <p>YOU: </p>
-                    <pre>${inputText}</pre>
+                    <label>YOU: </label>
+                    <pre>${userPrompt}</pre>
                 </div>`);
             //make api call, then start generating, loading icon
+            $.ajax({
+                method: 'POST',
+                url: window.location.protocol + "//" + window.location.host + "/api/postInstruction",
+                contentType: "application/JSON",
+                dataType: "json",
+                data: JSON.stringify({
+                    "id": sessionId,
+                    "userPrompt": userPrompt
+                }),
+                success: function (response) {
+                    const r = response["assistantResponse"];
+                    const suggestedTitle = response["suggestedTitle"];
+                    const suggestedDescription = response["suggestedDescription"];
+                    $seoConversation.append(`<div class="conversation-line">
+                            <label>BOT: </label>
+                            <pre>${r}</pre>
+                        </div>`);
+                    $suggestedTitle.text(suggestedTitle);
+                    $suggestedDescription.text(suggestedDescription);
+                },
+                error: function (xhr, status, error) {
+                    alert(`unable to start, something has gone wrong. ${status}, ${error}`);
+                }
+            });
             //if api call successful
             $seoInstructionInput.val('');
             $seoInstructionInput.css("height", "auto");

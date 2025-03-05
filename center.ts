@@ -26,7 +26,6 @@ const server = serve(
             "/api/getNewSession": {
                 //the caller asks the server for a new session.
                 GET(req) {
-                    console.log("Get New Session Called");
                     return onGetNewSession();
                 }
             },

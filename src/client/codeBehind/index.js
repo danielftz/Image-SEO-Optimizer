@@ -218,7 +218,7 @@ $(function () {
                     const r = response["assistantResponse"];
                     const suggestedTitle = response["suggestedTitle"];
                     const suggestedDescription = response["suggestedDescription"];
-                    $seoConversation.append(`<div class="conversation-line">
+                    $seoConversation.append(`<div class="conversation-line bot-conversation-line">
                             <label>BOT: </label>
                             <pre>${r}</pre>
                         </div>`);

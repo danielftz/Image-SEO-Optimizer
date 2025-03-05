@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 
 const inMemoryData = new Map<string, SessionData>();
 
+
 //Creates a new sessionID (uuid)
 //Add new instance to inMemoryData
 //return the id in json format
@@ -27,20 +28,34 @@ function onGetNewSession(): Response {
 
 
 //Called when caller has sent an instruction
-function onPostInstruction(input: any): Response {
+async function onPostInstruction(input: any): Promise<Response> {
 
     try {
         const id: string = input["id"];
         const userPrompt: string = input["userPrompt"];
-        
+
+        /*
+        const deepSeekResponse = await fetch(
+            "https://api.deepseek.com/chat/completions",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${process.env.IMAGE_SEO_DEEPSEEK_API_KEY}`
+                },
+                body: JSON.stringify({ message: "Hello from Bun!" }),
+            });
+        */
+
+
         return Response.json({
-            "assistantResponse":"Sounds good",
+            "assistantResponse": "Sounds good",
             "suggestedTitle": "ayyy",
             "suggestedDescription": "LMAOOOO"
         });
 
-    }catch(ex){
-        return new Response("Bad request. ", {status: 400});
+    } catch (ex) {
+        return new Response("Bad request. ", { status: 400 });
     }
 }
 

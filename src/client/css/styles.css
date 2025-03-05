@@ -208,6 +208,12 @@ button {
     flex-wrap: nowrap;
     justify-content: start;
     gap: 10px;
+    padding: 5px 15px;
+}
+
+.bot-conversation-line{
+    background-color: #fdddb1;
+    border-radius: 8px;
 }
 
 .text-area {

@@ -279,7 +279,7 @@ $(function () {
                     const suggestedDescription = response["suggestedDescription"];
                     
                     $seoConversation.append(
-                        `<div class="conversation-line">
+                        `<div class="conversation-line bot-conversation-line">
                             <label>BOT: </label>
                             <pre>${r}</pre>
                         </div>`

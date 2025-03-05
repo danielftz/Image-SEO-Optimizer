@@ -9,11 +9,21 @@ function onPostInstruction(input: any): Response {
     return new Response();
 }
 
+
+//Creates a new sessionID (uuid)
+//Add new instance to inMemoryData
+//return the id in json format
 function onGetNewSession(): Response {
 
     const newId = uuidv4();
+    // const timeStamp = Date.now;
+    const newSession: Session = {
+        "id": newId, 
+        "lastInteraction": new Date()
+    };
 
-    inMemoryData[newId] = new Array<ConversationData>();
+    inMemoryData.set(newSession, new Array<ConversationData>());
+
     return Response.json(
     {
         "id": newId,

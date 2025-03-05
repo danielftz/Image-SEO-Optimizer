@@ -32,7 +32,6 @@ $(function () {
                 try {
                     const id = response["id"];
                     if (id) {
-                        alert(id);
                         sessionId = id;
                         startSetup();
                     }

@@ -215,8 +215,9 @@ button {
     height: auto;
     line-height: 1;
     font-size: inherit;
+    min-width: auto; 
+    min-height: auto;
 }
-
 
 .title-copy-button:hover, .description-copy-button:hover{
     background-color: transparent;

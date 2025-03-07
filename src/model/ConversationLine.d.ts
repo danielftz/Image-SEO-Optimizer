@@ -1,8 +1,6 @@
-import type AIRole from "./AIRole";
+import {AIRole} from "./AIRole";
 
-interface ConversationData{
+export class ConversationLine{
     role: AIRole;
     content: string;
 }
-
-export default ConversationData;

@@ -1,4 +1,4 @@
-import type UploadedImageData from '../../model/UploadedImageData';
+import type {UploadedImageData} from '../../model/UploadedImageData';
 
 //equipvalent to document ready
 $(function () {

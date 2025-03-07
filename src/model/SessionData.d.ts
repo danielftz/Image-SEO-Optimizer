@@ -1,9 +1,7 @@
-import ConversationData from "./ConversationLine";
+import {ConversationLine} from "./ConversationLine";
 
-interface SessionData{
+export class SessionData{
     id:string;
     lastInteraction: Date;
-    conversation: ConversationData[];
+    conversation: ConversationLine[];
 }
-
-export default SessionData;

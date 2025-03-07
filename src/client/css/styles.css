@@ -194,6 +194,36 @@ button {
     flex-basis: calc(50%-10px);
 }
 
+.action-labels{
+    display: flex;
+    gap: 5px;
+    flex-direction: row;
+    justify-content: start;
+}
+
+.title-copy-button, .description-copy-button{
+    background-color: transparent;
+    border: none;
+    color:#253551;
+    padding: 0px 0px 6px 0px;
+    margin: 0px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: start;
+    width: auto;
+    height: auto;
+    line-height: 1;
+    font-size: inherit;
+}
+
+
+.title-copy-button:hover, .description-copy-button:hover{
+    background-color: transparent;
+    color:#ffaa33;
+}
+
+
 #seoConversation {
     padding: 25px 10px;
 }

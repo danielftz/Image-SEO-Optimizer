@@ -24,12 +24,6 @@ $(function () {
     const $resetTextBtn = $('#resetTextBtn');
     const textAreaClass = $('.text-area');
 
-    const titleCopyButtonClass=$('.title-copy-button');
-    const descriptionCopyButtonClass=$('.description-copy-button');
-
-    const $suggestedTitle = $('#suggestedTitle');
-    const $suggestedDescription = $('#suggestedDescription');
-
     let currentImage: UploadedImageData | null = null;
 
     let sessionId: string | null = null;
@@ -136,12 +130,12 @@ $(function () {
         });
 
         $seoConversation.on('click', '.title-copy-button', function(){
-            const toCopy = $(this).closest('.action-label').next('.suggested-title').text();
+            const toCopy = $(this).closest('.action-labels').next('.suggested-title').text();
             navigator.clipboard.writeText(toCopy);
         });
 
         $seoConversation.on('click', '.description-copy-button', function(){
-            const toCopy = $(this).closest('.action-label').next('.suggested-description').text();
+            const toCopy = $(this).closest('.action-labels').next('.suggested-description').text();
             navigator.clipboard.writeText(toCopy);
         });
     }
@@ -249,7 +243,7 @@ $(function () {
     function resetApp(): void {
         currentImage = null;
 
-        $fileInput.val(''); ``
+        $fileInput.val('');
         $previewImage.attr('src', '#');
         $previewImage.hide();
         $originalDimension.text('');
@@ -295,15 +289,15 @@ $(function () {
                         `<div class="conversation-line bot-conversation-line">
                             <label>BOT: </label>
                             <div class="text-generation-result">
-                                <div class="action-label">
+                                <div class="action-labels">
                                     <label>Suggested Title:</label>
-                                    <button class="title-copy-button"><i class="fa-solid fa-copy"></i></button>
+                                    <button class="title-copy-button"><i class="fa fa-clone"></i></button>
                                 </div>
                                 <p class="suggested-title">${suggestedTitle}</p>
                                 <br>
-                                <div class="action-label">
+                                <div class="action-labels">
                                     <label>Suggested Description</label>
-                                    <button class="description-copy-button"><i class="fa-solid fa-copy"></i></button>
+                                    <button class="description-copy-button"><i class="fa fa-clone"></i></button>
                                 </div>
                                 <p class="suggested-description">${suggestedDescription}</p>
                                 <br>
@@ -312,16 +306,14 @@ $(function () {
                             </div>
                         </div>`
                     );
-
-                    // $suggestedTitle.text(suggestedTitle);
-                    // $suggestedDescription.text(suggestedDescription);
-
                 },
                 error: function (xhr, status, error) {
                     alert(`unable to start, something has gone wrong. ${status}, ${error}`);
                 }
             })
-            //if api call successful
+            
+
+            //disable all sending and reset features
 
             $seoInstructionInput.val('');
             $seoInstructionInput.css("height", "auto");
@@ -336,8 +328,10 @@ $(function () {
     }
 
     function resetText(): void {
+        
         $seoConversation.children().remove();
         $seoInstructionInput.val('');
         $seoInstructionInput.css("height", "auto");
+        sessionId=null;
     }
 })

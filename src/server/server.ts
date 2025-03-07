@@ -95,10 +95,11 @@ async function onPostInstruction(input: any): Promise<Response> {
                     }
                 ),
             });
+        // console.log(deepSeekResponse);
         const responseJson: any = await deepSeekResponse.json();
         const body: any = responseJson["choices"][0]["message"];
        
-        console.log(body);
+        // console.log(body);
         const content: string = body["content"];
 
         existingConversation.push({
@@ -106,9 +107,8 @@ async function onPostInstruction(input: any): Promise<Response> {
             content: content
         });
 
-        console.log(content);
         const parsedContent = JSON.parse(content);
-        console.log(parsedContent);
+        // console.log(parsedContent);
 
 
         return Response.json({

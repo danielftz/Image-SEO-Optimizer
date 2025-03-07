@@ -19,6 +19,8 @@ $(function () {
     const $generateBtn = $('#generateBtn');
     const $resetTextBtn = $('#resetTextBtn');
     const textAreaClass = $('.text-area');
+    const titleCopyButtonClass = $('.title-copy-button');
+    const descriptionCopyButtonClass = $('.description-copy-button');
     const $suggestedTitle = $('#suggestedTitle');
     const $suggestedDescription = $('#suggestedDescription');
     let currentImage = null;
@@ -103,6 +105,19 @@ $(function () {
             if (e.ctrlKey && e.which === 13) {
                 submitInstruction();
             }
+        });
+        $seoConversation.on('click', '.title-copy-button', function () {
+            const toCopy = $(this).closest('.action-label').next('.suggested-title').text();
+            console.log(toCopy);
+            navigator.clipboard.writeText(toCopy);
+        });
+        $seoConversation.on('click', '.description-copy-button', function () {
+            console.log($(this));
+            console.log($(this).closest('.action-label'));
+            console.log($(this).closest('.action-label').next('.suggested-description'));
+            const toCopy = $(this).closest('.action-label').next('.suggested-description').text();
+            console.log(toCopy);
+            navigator.clipboard.writeText(toCopy);
         });
     }
     function handleFileSelection(file) {
@@ -220,10 +235,25 @@ $(function () {
                     const suggestedDescription = response["suggestedDescription"];
                     $seoConversation.append(`<div class="conversation-line bot-conversation-line">
                             <label>BOT: </label>
-                            <pre>${r}</pre>
+                            <div class="text-generation-result">
+                                <div class="action-label">
+                                    <label>Suggested Title:</label>
+                                    <button class="title-copy-button"><i class="fa-solid fa-copy"></i></button>
+                                </div>
+                                <p class="suggested-title">${suggestedTitle}</p>
+                                <br>
+                                <div class="action-label">
+                                    <label>Suggested Description</label>
+                                    <button class="description-copy-button"><i class="fa-solid fa-copy"></i></button>
+                                </div>
+                                <p class="suggested-description">${suggestedDescription}</p>
+                                <br>
+                                <label>Explantion</label>
+                                <pre>${r}</pre>
+                            </div>
                         </div>`);
-                    $suggestedTitle.text(suggestedTitle);
-                    $suggestedDescription.text(suggestedDescription);
+                    // $suggestedTitle.text(suggestedTitle);
+                    // $suggestedDescription.text(suggestedDescription);
                 },
                 error: function (xhr, status, error) {
                     alert(`unable to start, something has gone wrong. ${status}, ${error}`);

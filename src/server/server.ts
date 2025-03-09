@@ -25,7 +25,6 @@ const systemPrompt = `
 //return the id in json format
 function onGetNewSession(): Response {
 
-
     const newId = uuidv4();
 
     //create new session with systemPrompt
@@ -124,6 +123,14 @@ async function onPostInstruction(input: any): Promise<Response> {
     }
 }
 
+
+function cleanUpInMemoryData(){
+    for(const[key, value] of inMemoryData){
+        if (new Date().getTime()- value.lastInteraction.getTime() > 1800000){
+            inMemoryData.delete(key);
+        }
+    }
+}
 
 
 export { onPostInstruction, onGetNewSession };

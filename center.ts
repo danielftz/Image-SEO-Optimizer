@@ -3,7 +3,7 @@ import { join } from "path";
 import { readFile } from "fs/promises";
 import homepage from "./src/client/html/index.html";
 import { onPostInstruction, onGetNewSession } from "./src/server/server.ts";
-const PORT = 6969;
+const PORT = process.env.PORT || 6969;
 
 const MIME_TYPES: Record<string, string> = {
     ".html": "text/html",

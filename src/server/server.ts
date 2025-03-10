@@ -94,11 +94,9 @@ async function onPostInstruction(input: any): Promise<Response> {
                     }
                 ),
             });
-        // console.log(deepSeekResponse);
+            
         const responseJson: any = await deepSeekResponse.json();
         const body: any = responseJson["choices"][0]["message"];
-       
-        // console.log(body);
         const content: string = body["content"];
 
         existingConversation.push({
@@ -107,8 +105,6 @@ async function onPostInstruction(input: any): Promise<Response> {
         });
 
         const parsedContent = JSON.parse(content);
-        // console.log(parsedContent);
-
 
         return Response.json({
             "assistantResponse": parsedContent["explanation"],
@@ -124,9 +120,10 @@ async function onPostInstruction(input: any): Promise<Response> {
 }
 
 
-function cleanUpInMemoryData(){
-    for(const[key, value] of inMemoryData){
-        if (new Date().getTime()- value.lastInteraction.getTime() > 1800000){
+function cleanUpInMemoryData() {
+    for (const [key, value] of inMemoryData) {
+        //session older than 30 minutes gets deleted
+        if (new Date().getTime() - value.lastInteraction.getTime() > 1800000) {
             inMemoryData.delete(key);
         }
     }

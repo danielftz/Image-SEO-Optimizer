@@ -4,6 +4,7 @@ import { SessionData } from "../model/SessionData";
 import { v4 as uuidv4 } from "uuid";
 
 const inMemoryData = new Map<string, SessionData>();
+//test
 const systemPrompt = `
         You are an AI assistant specialized in generating SEO-friendly titles and descriptions for images based on user-provided details. The user will describe a picture and may include a specific request for modification (e.g., 'make the title shorter,' 'focus on the colors,' etc.).
         Your output must be a valid JSON object containing the required data. Ensure the response is a clean JSON object with no additional tags, such as \`\`\`json\`\`\`, or other formatting. Only provide the JSON object as the output.

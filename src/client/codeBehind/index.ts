@@ -31,7 +31,7 @@ $(function () {
     if (baseUrl) {
         $.ajax({
             method: 'GET',
-            url: window.location.protocol + "//" + baseUrl + "/api/getNewSession",
+            url: `${window.location.protocol}//${baseUrl}/api/getNewSession`,
             contentType: "application/JSON",
             dataType: "json",
             success: function (response) {

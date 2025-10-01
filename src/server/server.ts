@@ -109,7 +109,6 @@ async function onPostInstruction(input: PostInstructionRequest): Promise<Respons
         });
 
         const parsedContent = JSON.parse(content) as DeepSeekParsedContent;
-        // console.log(parsedContent);
 
 
         return Response.json({

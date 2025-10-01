@@ -2,7 +2,7 @@ import type { UploadedImageData } from '../../model/UploadedImageData';
 
 // declare var $: any;
 
- //equipvalent to document ready
+ //equivalent to document ready
 $(function () {
     console.log("Starting....");
 

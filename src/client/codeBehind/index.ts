@@ -1,6 +1,8 @@
 import type { UploadedImageData } from '../../model/UploadedImageData';
 
-//equipvalent to document ready
+// declare var $: any;
+
+ //equipvalent to document ready
 $(function () {
     console.log("Starting....");
 
@@ -34,7 +36,7 @@ $(function () {
             url: `${window.location.protocol}//${baseUrl}/api/getNewSession`,
             contentType: "application/JSON",
             dataType: "json",
-            success: function (response) {
+            success: function (response: any) {
                 try {
                     const id = response["id"];
 
@@ -47,7 +49,7 @@ $(function () {
                     alert(`Unable to get the correct sessionid, ${ex}`);
                 }
             },
-            error: function (xhr, status, error) {
+            error: function (xhr: any, status: any, error: any) {
                 alert(`unable to start, something has gone wrong. ${status}, ${error}`);
             }
         });
@@ -58,7 +60,7 @@ $(function () {
 
         $previewImage.hide();
 
-        $dropZone.on('dragover', (e) => {
+        $dropZone.on('dragover', (e: any) => {
             e.preventDefault();
             $dropZone.addClass('drag-over');
         });
@@ -67,7 +69,7 @@ $(function () {
             $dropZone.removeClass('drag-over');
         });
 
-        $dropZone.on('drop', (e) => {
+        $dropZone.on('drop', (e: any) => {
             e.preventDefault();
             console.log("Dropped");
 
@@ -81,29 +83,30 @@ $(function () {
 
 
         $fileInput.on('change', function () {
-            //cast jquery into htmlinputelemnt, then reference the files of the input
-            const files = (<HTMLInputElement>$fileInput[0]).files;
+            // Use type-safe approach for jQuery element
+            const fileInputElement = $fileInput[0] as HTMLInputElement;
+            const files = fileInputElement.files;
             if (files && files.length > 0) {
                 handleFileSelection(files[0]);
             }
         });
 
-        $widthInput.on('change', function () {
+        $widthInput.on('change', function (this: HTMLInputElement) {
             if (currentImage != null) {
                 const newWidth = parseInt($(this).val() as string);
                 if (newWidth > 0) {
-                    const newHeight = Math.round(newWidth / (currentImage as UploadedImageData).aspectRatio);
+                    const newHeight = Math.round(newWidth / currentImage.aspectRatio);
                     $heightInput.val(newHeight);
                 }
 
             }
         })
 
-        $heightInput.on('change', function () {
+        $heightInput.on('change', function (this: HTMLInputElement) {
             if (currentImage != null) {
                 const newHeight = parseInt($(this).val() as string);
                 if (newHeight > 0) {
-                    const newWidth = Math.round(newHeight * (currentImage as UploadedImageData).aspectRatio);
+                    const newWidth = Math.round(newHeight * currentImage.aspectRatio);
                     $widthInput.val(newWidth);
                 }
             }
@@ -120,21 +123,21 @@ $(function () {
 
 
         //text area always size vertically according to text length
-        textAreaClass.on('input', function () {
+        textAreaClass.on('input', function (this: HTMLTextAreaElement) {
             this.style.height = 'auto';
             this.style.height = (this.scrollHeight) + 'px';
-        }).on('keydown', function (e) {
+        }).on('keydown', function (e: any) {
             if (e.ctrlKey && e.which === 13) {
                 submitInstruction();
             }
         });
 
-        $seoConversation.on('click', '.title-copy-button', function(){
+        $seoConversation.on('click', '.title-copy-button', function (this: HTMLElement) {
             const toCopy = $(this).closest('.action-labels').next('.suggested-title').text();
             navigator.clipboard.writeText(toCopy);
         });
 
-        $seoConversation.on('click', '.description-copy-button', function(){
+        $seoConversation.on('click', '.description-copy-button', function (this: HTMLElement) {
             const toCopy = $(this).closest('.action-labels').next('.suggested-description').text();
             navigator.clipboard.writeText(toCopy);
         });
@@ -204,8 +207,8 @@ $(function () {
                 const quality = targetFormat === 'webp' ? 0.9 : 0.95;
 
                 canvas.toBlob((blob) => {
-                    if (blob != null) {
-                        (currentImage as UploadedImageData).processedBlob = blob;
+                    if (blob != null && currentImage!= null) {
+                        currentImage.processedBlob = blob;
                         const newObjectUrl = URL.createObjectURL(blob);
 
                         $previewImage.attr('src', newObjectUrl);
@@ -280,7 +283,7 @@ $(function () {
                     "id": sessionId,
                     "userPrompt": userPrompt
                 }),
-                success: function (response) {
+                success: function (response: any) {
                     const r = response["assistantResponse"];
                     const suggestedTitle = response["suggestedTitle"];
                     const suggestedDescription = response["suggestedDescription"];
@@ -307,7 +310,7 @@ $(function () {
                         </div>`
                     );
                 },
-                error: function (xhr, status, error) {
+                error: function (xhr: any, status: any, error: any) {
                     alert(`unable to start, something has gone wrong. ${status}, ${error}`);
                 }
             })
@@ -322,8 +325,11 @@ $(function () {
             //scroll to position
             let $lastLine = $seoConversation.last();
             let lastLineHeight = $lastLine.outerHeight() ?? 0;
+            let lastLineOffset = $lastLine.offset();
 
-            $('html, body').scrollTop($lastLine.offset()!.top + lastLineHeight);
+            if (lastLineOffset) {
+                $('html, body').scrollTop(lastLineOffset.top + lastLineHeight);
+            }
         }
     }
 

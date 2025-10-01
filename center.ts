@@ -1,44 +1,13 @@
-import { serve } from "bun";
 import { join } from "path";
 import { onPostInstruction, onGetNewSession } from "./src/server/server.ts";
 
 const PORT = 6969;
-
-const server = serve({
+const HTML_ROOT = "/src/client/html";
+const server = Bun.serve({
     port: PORT,
     routes: {
-        "/": async () => {
-            // Serve the main HTML file
-            const html = await Bun.file("./src/client/html/index.html").text();
-            return new Response(html, { headers: { "Content-Type": "text/html" } });
-        },
-        
-        "/src/client/*": async (req) => {
-            // Serve static files from src/client directory
-            const path = new URL(req.url).pathname;
-            const filePath = `.${path}`;
-            
-            try {
-                const file = Bun.file(filePath);
-                
-                // Check if file exists
-                if (await file.exists()) {
-                    // Determine content type based on file extension
-                    const ext = path.split('.').pop()?.toLowerCase() || '';
-                    const contentType = getContentType(ext);
-                    
-                    return new Response(file, { 
-                        headers: { "Content-Type": contentType } 
-                    });
-                } else {
-                    return new Response("Not found", { status: 404 });
-                }
-            } catch (error) {
-                console.error(`Error serving file ${path}:`, error);
-                return new Response("Internal server error", { status: 500 });
-            }
-        },
-        
+        //routes for api calls
+
         "/api/getNewSession": {
             // The caller asks the server for a new session.
             GET(req) {
@@ -53,6 +22,45 @@ const server = serve({
                 return onPostInstruction(json);
             }
         },
+    },
+    
+    // Fallback handler for static files and frontend
+    async fetch(req: Request) {
+        const url = new URL(req.url);
+        const pathname = url.pathname;
+        // Handle root route - serve the main HTML file
+        if (pathname === '/') {
+            try {
+                const file = Bun.file("./src/client/html/index.html");
+                return new Response(file, {
+                    headers: { "Content-Type": "text/html" }
+                });
+            } catch (error) {
+                console.log(error);
+                return new Response("Not found", { status: 404 });
+            }
+        }
+        
+        // Serve static files from src/client directory
+        if (pathname.startsWith('/src/client/')) {
+            try {
+                const file = Bun.file(`.${pathname}`);
+                if (await file.exists()) {
+                    // Determine content type based on file extension
+                    const ext = pathname.split('.').pop()?.toLowerCase() || '';
+                    const contentType = getContentType(ext);
+                    
+                    return new Response(file, {
+                        headers: { "Content-Type": contentType }
+                    });
+                }
+            } catch (error) {
+                console.error(`Error serving file ${pathname}:`, error);
+            }
+        }
+        
+        // Fallback to 404
+        return new Response("Not found", { status: 404 });
     }
 });
 

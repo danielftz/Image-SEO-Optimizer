@@ -2,11 +2,11 @@ import { join } from "path";
 import { onPostInstruction, onGetNewSession } from "./src/server/server.ts";
 
 const PORT = process.env.PORT || 6969;
-const HTML_ROOT = "/src/client/html";
+
 const server = Bun.serve({
     port: PORT,
     routes: {
-        //routes for api calls
+        //routes for api calls only
 
         "/api/getNewSession": {
             // The caller asks the server for a new session.
@@ -27,11 +27,12 @@ const server = Bun.serve({
     // Fallback handler for static files and frontend
     async fetch(req: Request) {
         const url = new URL(req.url);
-        const pathname = url.pathname;
+        const pathName = url.pathname;
         // Handle root route - serve the main HTML file
-        if (pathname === '/') {
+        // This is for dev build only, deploy build static files will be handled by NGINX
+        if (pathName === '/') {
             try {
-                const file = Bun.file("./src/client/html/index.html");
+                const file = Bun.file("./src/client/index.html");
                 return new Response(file, {
                     headers: { "Content-Type": "text/html" }
                 });
@@ -40,14 +41,14 @@ const server = Bun.serve({
                 return new Response("Not found", { status: 404 });
             }
         }
-        
-        // Serve static files from src/client directory
-        if (pathname.startsWith('/src/client/')) {
+        console.log(pathName);
+        // Serve static files from css, codeBehind from directory
+        if (pathName.startsWith('/css/') || pathName.startsWith('/codeBehind/') ) {
             try {
-                const file = Bun.file(`.${pathname}`);
+                const file = Bun.file(`./src/client/${pathName}`);
                 if (await file.exists()) {
                     // Determine content type based on file extension
-                    const ext = pathname.split('.').pop()?.toLowerCase() || '';
+                    const ext = pathName.split('.').pop()?.toLowerCase() || '';
                     const contentType = getContentType(ext);
                     
                     return new Response(file, {
@@ -55,7 +56,7 @@ const server = Bun.serve({
                     });
                 }
             } catch (error) {
-                console.error(`Error serving file ${pathname}:`, error);
+                console.error(`Error serving file ${pathName}:`, error);
             }
         }
         

@@ -1,0 +1,9 @@
+server{
+    listen 80;
+    server_name nlheatingcool.ca;
+
+    location / {
+        root /var/www/image-seo-optimizer/src/client/html;
+        try_files 
+    }
+}

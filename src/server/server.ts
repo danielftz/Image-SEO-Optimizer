@@ -1,6 +1,8 @@
 import { AIRole } from "../model/AIRole";
 import { ConversationLine } from "../model/ConversationLine";
 import { SessionData } from "../model/SessionData";
+import { PostInstructionRequest } from "../model/PostInstructionRequest";
+import { DeepSeekResponse, DeepSeekParsedContent } from "../model/DeepSeekResponse";
 import { v4 as uuidv4 } from "uuid";
 
 const inMemoryData = new Map<string, SessionData>();
@@ -26,7 +28,6 @@ const systemPrompt = `
 //return the id in json format
 function onGetNewSession(): Response {
 
-
     const newId = uuidv4();
 
     //create new session with systemPrompt
@@ -50,11 +51,10 @@ function onGetNewSession(): Response {
 
 
 //Called when caller has sent an instruction
-async function onPostInstruction(input: any): Promise<Response> {
+async function onPostInstruction(input: PostInstructionRequest): Promise<Response> {
 
     try {
-        const id: string = input["id"];
-        const userPrompt: string = input["userPrompt"];
+        const { id, userPrompt } = input;
 
         //add user prompt into object located in inMemoryData
         let userSession: SessionData | undefined = inMemoryData.get(id);
@@ -96,26 +96,26 @@ async function onPostInstruction(input: any): Promise<Response> {
                     }
                 ),
             });
+
         // console.log(deepSeekResponse);
-        const responseJson: any = await deepSeekResponse.json();
-        const body: any = responseJson["choices"][0]["message"];
+        const responseJson = await deepSeekResponse.json() as DeepSeekResponse;
+        const body = responseJson.choices[0].message;
        
         // console.log(body);
-        const content: string = body["content"];
+        const content: string = body.content;
 
         existingConversation.push({
             role: AIRole.assistant,
             content: content
         });
 
-        const parsedContent = JSON.parse(content);
-        // console.log(parsedContent);
+        const parsedContent = JSON.parse(content) as DeepSeekParsedContent;
 
 
         return Response.json({
-            "assistantResponse": parsedContent["explanation"],
-            "suggestedTitle": parsedContent["seo_title"],
-            "suggestedDescription": parsedContent["seo_description"],
+            "assistantResponse": parsedContent.explanation,
+            "suggestedTitle": parsedContent.seo_title,
+            "suggestedDescription": parsedContent.seo_description,
         });
 
     } catch (ex) {
@@ -126,5 +126,14 @@ async function onPostInstruction(input: any): Promise<Response> {
 }
 
 
+function cleanUpInMemoryData() {
+    for (const [key, value] of inMemoryData) {
+        //session older than 30 minutes gets deleted
+        if (new Date().getTime() - value.lastInteraction.getTime() > 1800000) {
+            inMemoryData.delete(key);
+        }
+    }
+}
 
-export { onPostInstruction, onGetNewSession };
+
+export { onPostInstruction, onGetNewSession };  

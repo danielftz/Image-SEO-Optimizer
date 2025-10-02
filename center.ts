@@ -1,6 +1,7 @@
 import { join } from "path";
 import { onPostInstruction, onGetNewSession } from "./src/server/server.ts";
 
+const isProduction = process.env.NODE_ENV === 'production';
 const PORT = process.env.PORT || 6969;
 
 const server = Bun.serve({
@@ -28,7 +29,14 @@ const server = Bun.serve({
     async fetch(req: Request) {
         const url = new URL(req.url);
         const pathName = url.pathname;
-        // Handle root route - serve the main HTML file
+
+        // In production, only serve API routes
+        if (isProduction) {
+
+            return new Response("Not found", { status: 404 }); // For non-route API paths
+        }
+        
+        // Dev mode: Handle root route - serve the main HTML file
         // This is for dev build only, deploy build static files will be handled by NGINX
         if (pathName === '/') {
             try {
@@ -42,7 +50,7 @@ const server = Bun.serve({
             }
         }
         console.log(pathName);
-        // Serve static files from css, codeBehind from directory
+        // Dev mode: Serve static files from css, codeBehind from directory
         if (pathName.startsWith('/css/') || pathName.startsWith('/codeBehind/') ) {
             try {
                 const file = Bun.file(`./src/client/${pathName}`);
@@ -85,4 +93,4 @@ function getContentType(extension: string): string {
 
 
 
-console.log(`listening on ${server.url}, PORT: ${PORT}`);
+console.log(`listening on ${server.url}, PORT: ${PORT}, Mode: ${isProduction ? 'Production' : 'Development'}`);
